@@ -1,38 +1,39 @@
 import { MiddlewareConsumer, Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
-import { HttpExceptionFilter } from './infrastructure/filters/http-exception.filter';
-import { DEFAULT_LOGGING_OPTIONS } from './infrastructure/logging/logging.config';
-import { LoggingModule } from './infrastructure/logging/logging.module';
-import { AuthGuard } from './infrastructure/auth/auth.guard';
-import { RequestIdMiddleware } from './infrastructure/middlewares';
-import { RequestLoggerMiddleware } from './infrastructure/logging/request-logger.middleware';
-import { ProcessTimeInterceptor } from './infrastructure/interceptors';
-import { LoggingInterceptor } from './infrastructure/logging/logging.interceptor';
-import { UsersModule } from './domain/users/users.module';
+import { AuthModule } from './domain/auth/auth.module';
+// import { IntegrationModule } from './domain/integration/integration.module';
+// import { WebhooksModule } from './domain/integration/webhooks/webhooks.module';
 import { AmoCrmModule } from './external/amo-crm/amo-crm.module';
-import { AxiosModule } from './infrastructure/axios/axios.module';
-import { IntegrationModule } from './domain/integration/integration.module';
-import { ConfigModule } from '@nestjs/config';
 import { SenlerService } from './external/senler/senler.service';
-import { WebhooksModule } from './domain/integration/webhooks/webhooks.module';
+import { AuthGuard } from './infrastructure/auth/auth.guard';
+import { AxiosModule } from './infrastructure/axios/axios.module';
 import { AppConfig, appConfigValidationSchema } from './infrastructure/config';
+import { HttpExceptionFilter } from './infrastructure/filters/http-exception.filter';
+import { ProcessTimeInterceptor } from './infrastructure/interceptors';
+import { DEFAULT_LOGGING_OPTIONS } from './infrastructure/logging/logging.config';
+import { LoggingInterceptor } from './infrastructure/logging/logging.interceptor';
+import { LoggingModule } from './infrastructure/logging/logging.module';
+import { RequestLoggerMiddleware } from './infrastructure/logging/request-logger.middleware';
+import { RequestIdMiddleware } from './infrastructure/middlewares';
 
 
 @Module({
   imports: [
+    LoggingModule.forRoot(DEFAULT_LOGGING_OPTIONS),
+
     // Resources
-    UsersModule,
-    IntegrationModule,
-    WebhooksModule,
+    AuthModule,
+    // IntegrationModule,
+    // WebhooksModule,
 
     // External services
     AmoCrmModule,
 
     // Infrastructure modules
-    LoggingModule.forRoot(DEFAULT_LOGGING_OPTIONS),
-    AxiosModule.forRoot(),
+    // AxiosModule.forRoot(),
 
     ConfigModule.forRoot({
       isGlobal: true,

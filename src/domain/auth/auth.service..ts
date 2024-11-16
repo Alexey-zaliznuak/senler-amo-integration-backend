@@ -1,10 +1,10 @@
 import { ConflictException, Injectable } from '@nestjs/common';
+import { AmoCrmService } from 'src/external/amo-crm';
 import { prisma } from 'src/infrastructure/database';
 import { CreateUserDto, CreateUserRequestDto } from './dto/create-user.dto';
-import { AmoCrmService } from 'src/external/amo-crm';
 
 @Injectable()
-export class UsersService {
+export class AuthService {
   constructor (
     private readonly amoCrmService: AmoCrmService,
   ) {}

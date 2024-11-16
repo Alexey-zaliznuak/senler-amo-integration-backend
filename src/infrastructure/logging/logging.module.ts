@@ -10,6 +10,7 @@ export const LOGGER = 'WinstonLogger';
 @Global()
 @Module({
   providers: [LoggingService],
+  exports: [LoggingService],
 })
 export class LoggingModule {
   static forRoot(options: winston.LoggerOptions = DEFAULT_LOGGING_OPTIONS): DynamicModule {

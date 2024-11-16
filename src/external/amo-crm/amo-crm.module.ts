@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { AmoCrmService } from './amo-crm.service';
 import { LoggingModule } from 'src/infrastructure/logging/logging.module';
 import { AMO_CRM } from './amo-crm.config';
